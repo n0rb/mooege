@@ -62,7 +62,7 @@ namespace Mooege.Core.GS.Player
          /// <summary>
         /// Refreshes the visual appearance of the hero
         /// </summary>
-        public void SendVisualInvetory(Player player)
+        public void SendVisualInventory(Player player)
          {
              var message = new VisualInventoryMessage()
                                {
@@ -73,7 +73,8 @@ namespace Mooege.Core.GS.Player
                                                        },
                                };
 
-             player.InGameClient.SendMessage(message);             
+             //player.InGameClient.SendMessage(message);
+             player.World.BroadcastGlobal(message);
          }
         
         /// <summary>
@@ -120,16 +121,21 @@ namespace Mooege.Core.GS.Player
             if (request.Location.EquipmentSlot != 0)
             {
                 System.Diagnostics.Debug.Assert(_inventoryStash.Contains(request.ItemID) || _equipment.IsItemEquipped(request.ItemID), "Request to equip unknown item");
-                               
+
                 int targetEquipSlot = request.Location.EquipmentSlot;
                 if (IsValidEquipmentRequest(item, targetEquipSlot))
                 {
                     Item oldEquipItem = _equipment.GetEquipment(targetEquipSlot);
-                    
+
                     // check if equipment slot is empty
                     if (oldEquipItem == null)
                     {
-                        _inventoryStash.RemoveItem(item);
+                        // determine if item is in backpack or switching item from position with target originally empty
+                        if (_inventoryStash.Contains(item))
+                            _inventoryStash.RemoveItem(item);
+                        else
+                            _equipment.UnequipItem(item);
+
                         _equipment.EquipItem(item, targetEquipSlot);
                         AcceptMoveRequest(item);
                     }
@@ -139,22 +145,26 @@ namespace Mooege.Core.GS.Player
                         if (_equipment.IsItemEquipped(item))
                         {
                             // switch both items
+                            if (!IsValidEquipmentRequest(oldEquipItem, item.EquipmentSlot))
+                                return;
+
                             int oldEquipmentSlot = _equipment.UnequipItem(item);
                             _equipment.EquipItem(item, targetEquipSlot);
                             _equipment.EquipItem(oldEquipItem, oldEquipmentSlot);
+
                         }
                         else
                         {
                             // equip item and place other item in the backpack
                             _inventoryStash.RemoveItem(item);
-                            _equipment.EquipItem(item, targetEquipSlot);                            
+                            _equipment.EquipItem(item, targetEquipSlot);
                             _inventoryStash.AddItem(oldEquipItem);
                         }
                         AcceptMoveRequest(item);
                         AcceptMoveRequest(oldEquipItem);
                     }
 
-                    SendVisualInvetory(this._owner);
+                    SendVisualInventory(this._owner);
                 }
             }
 
@@ -166,14 +176,14 @@ namespace Mooege.Core.GS.Player
                     if (_equipment.IsItemEquipped(item))
                     {
                         _equipment.UnequipItem(item); // Unequip the item
-                        SendVisualInvetory(this._owner);
+                        SendVisualInventory(this._owner);
                     }
                     else
                     {
                         _inventoryStash.RemoveItem(item);
                     }
                     _inventoryStash.AddItem(item, request.Location.Row, request.Location.Column);
-                    AcceptMoveRequest(item);                   
+                    AcceptMoveRequest(item);
                 }
             }
         }
@@ -191,33 +201,44 @@ namespace Mooege.Core.GS.Player
                 
             if (equipmentSlot == (int)EquipmentSlotId.Main_Hand)
             {
+                // useful for 1hand + shield switching, this is to avoid shield to be go to main hand
+                if (!Item.IsWeapon(type))
+                    return false;
+
                 if (Item.Is2H(type))
                 {
-                    Item itemOffHand = _equipment.GetEquipment(EquipmentSlotId.Off_Hand);                    
+                    Item itemOffHand = _equipment.GetEquipment(EquipmentSlotId.Off_Hand);
                     if (itemOffHand != null)
-                    {                       
-                        _equipment.UnequipItem(itemOffHand);                      
-                        _inventoryStash.AddItem(itemOffHand);
+                    {
+                        _equipment.UnequipItem(itemOffHand);
+                        if (!_inventoryStash.AddItem(itemOffHand))
+                        {
+                            _equipment.EquipItem(itemOffHand, (int)EquipmentSlotId.Off_Hand);
+                            return false;
+                        }
                         AcceptMoveRequest(itemOffHand);
                     }
                 }
             }
             else if (equipmentSlot == (int)EquipmentSlotId.Off_Hand)
             {
-                Item itemMainHand = _equipment.GetEquipment(EquipmentSlotId.Main_Hand);                
+                Item itemMainHand = _equipment.GetEquipment(EquipmentSlotId.Main_Hand);
                 if (Item.Is2H(type))
-                {   
+                {
+                    //remove object first to make room for possible unequiped item
+                    _inventoryStash.RemoveItem(item);
+
                     if(itemMainHand != null)
                     {
                         _equipment.UnequipItem(itemMainHand);
                         _inventoryStash.AddItem(itemMainHand);
                         AcceptMoveRequest(itemMainHand);
                     }
-                    _inventoryStash.RemoveItem(item);
+
                     _equipment.EquipItem(item, (int)EquipmentSlotId.Main_Hand);
                     AcceptMoveRequest(item); 
-                   
-                    SendVisualInvetory(this._owner);
+
+                    SendVisualInventory(this._owner);
                     // All equipment commands are executed. the original EquipmentRequest is invalid at this moment
                     return false;
                 }
@@ -269,12 +290,12 @@ namespace Mooege.Core.GS.Player
             if (_equipment.IsItemEquipped(item))
             {
                 _equipment.UnequipItem(item);
-                SendVisualInvetory(this._owner);
+                SendVisualInventory(this._owner);
             }
             else
             {
                 _inventoryStash.RemoveItem(item);
-            }            
+            }
             item.Drop(null, _owner.Position);
             AcceptMoveRequest(item);
         }

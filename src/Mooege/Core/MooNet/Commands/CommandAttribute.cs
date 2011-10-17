@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2011 mooege project
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,29 +16,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Sockets;
-using Mooege.Net.MooNet.Packets;
+using System;
 
-namespace Mooege.Net
+namespace Mooege.Core.MooNet.Commands
 {
-    public interface IConnection
+    [AttributeUsage(AttributeTargets.Class)]
+    public class CommandAttribute : Attribute
     {
-        bool IsConnected { get; }
-        IPEndPoint RemoteEndPoint { get; }
-        IPEndPoint LocalEndPoint { get; }
-        IClient Client { get; set; }
-        
-        int Send(PacketOut packet);
-        int Send(IEnumerable<byte> data);
-        int Send(IEnumerable<byte> data, SocketFlags flags);
-        int Send(byte[] buffer);
-        int Send(byte[] buffer, SocketFlags flags);
-        int Send(byte[] buffer, int start, int count);
-        int Send(byte[] buffer, int start, int count, SocketFlags flags);
+        public string Command { get; private set; }
+        public bool ConsoleOnly { get; private set; } // TODO: we should be instead be checking user priviles here. /raist.
 
-        void Disconnect();
+        public CommandAttribute(string command, bool consoleOnly=false)
+        {
+            this.Command = command.ToLower();
+            this.ConsoleOnly = consoleOnly;
+        }
     }
 }
-

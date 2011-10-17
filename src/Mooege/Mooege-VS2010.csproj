@@ -86,27 +86,39 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dep\ductsharp.dll</HintPath>
     </Reference>
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Extensions\BigIntegerExtensions.cs" />
+    <Compile Include="Common\Extensions\CodedOutputStream.cs" />
     <Compile Include="Core\Common\Items\Affix.cs" />
     <Compile Include="Core\Common\Items\ItemCreation\AttributeCreatorFactory.cs" />
     <Compile Include="Core\Common\Items\ItemCreation\DefaultAttributeCreator.cs" />
     <Compile Include="Core\Common\Items\ItemCreation\IItemAttributeCreator.cs" />
     <Compile Include="Core\Common\Items\ItemCreation\PotionAttributeCreator.cs" />
     <Compile Include="Core\Common\Items\ItemCreation\WeaponAttributeCreator.cs" />
+    <Compile Include="Core\GS\Game\GameCommands.cs" />
     <Compile Include="Core\GS\Game\GameManager.cs" />
     <Compile Include="Core\GS\Player\Equipment.cs" />
     <Compile Include="Core\GS\Player\Stash.cs" />
     <Compile Include="Core\MooNet\Accounts\Account.cs" />
+    <Compile Include="Core\MooNet\Accounts\AccountCommands.cs" />
     <Compile Include="Core\MooNet\Accounts\AccountManager.cs" />
     <Compile Include="Core\GS\Actors\Actor.cs" />
+    <Compile Include="Core\MooNet\Authentication\AuthManager.cs" />
+    <Compile Include="Core\MooNet\Authentication\Config.cs" />
+    <Compile Include="Core\MooNet\Authentication\SRP6a.cs" />
     <Compile Include="Core\MooNet\Channels\Channel.cs" />
     <Compile Include="Core\MooNet\Channels\ChannelManager.cs" />
     <Compile Include="Core\MooNet\Channels\Member.cs" />
     <Compile Include="Common\Config\Config.cs" />
     <Compile Include="Common\Config\ConfigManager.cs" />
+    <Compile Include="Core\MooNet\Commands\Config.cs" />
+    <Compile Include="Core\MooNet\Commands\ServerCommandHandler.cs" />
     <Compile Include="Core\MooNet\Commands\CommandManager.cs" />
-    <Compile Include="Core\MooNet\Commands\ServerCommandAttribute.cs" />
+    <Compile Include="Core\MooNet\Commands\CommandAttribute.cs" />
+    <Compile Include="Core\MooNet\Commands\Command.cs" />
+    <Compile Include="Core\MooNet\Commands\ServerCommands.cs" />
     <Compile Include="Core\MooNet\Games\GameCreator.cs" />
     <Compile Include="Core\MooNet\Games\GameCreatorManager.cs" />
     <Compile Include="Core\MooNet\Helpers\EntityIdHelper.cs" />
@@ -171,8 +183,6 @@
     <Compile Include="Net\MooNet\MooNetClient.cs" />
     <Compile Include="Net\MooNet\MooNetServer.cs" />
     <Compile Include="Net\MooNet\Config.cs" />
-    <Compile Include="Net\MooNet\Packets\Header.cs" />
-    <Compile Include="Net\MooNet\Packets\Packet.cs" />
     <Compile Include="Net\GS\ClientManager.cs" />
     <Compile Include="Net\GS\Config.cs" />
     <Compile Include="Net\GS\Message\Definitions\Skill\AssignPassiveSkillMessage.cs" />
@@ -384,6 +394,9 @@
     <Compile Include="Net\GS\Message\Definitions\World\WorldDeletedMessage.cs" />
     <Compile Include="Net\GS\Message\Definitions\World\WorldStatusMessage.cs" />
     <Compile Include="Net\IClient.cs" />
+    <Compile Include="Net\MooNet\Packets\PacketIn.cs" />
+    <Compile Include="Net\MooNet\Packets\PacketOut.cs" />
+    <Compile Include="Net\MooNet\RPC\RPCCallback.cs" />
     <Compile Include="Net\NATConfig.cs" />
     <Compile Include="Net\Utils.cs" />
     <Compile Include="Program.cs" />
@@ -473,6 +486,10 @@
       <Link>Assets\SNO\Blacklist.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\assets\SNO\Conversations.txt">
+      <Link>Assets\SNO\Conversations.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\assets\SNO\Effects.txt">
       <Link>Assets\SNO\Effects.txt</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -504,7 +521,5 @@
       <Name>LibMooNet</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
