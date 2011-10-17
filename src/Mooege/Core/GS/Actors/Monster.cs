@@ -213,7 +213,7 @@ namespace Mooege.Core.GS.Actors
 
             foreach (var msg in attribs.GetMessageList(this.DynamicID))
                 this.World.BroadcastIfRevealed(msg, this);
-
+            /* these are not needed, 0x37 just makes the right globe "glow", should probably only happen on the barbarian. the rest is also in real beta packet logs but is not needed // n0rb
             this.World.BroadcastIfRevealed(new PlayEffectMessage()
             {
                 ActorID = this.DynamicID,
@@ -231,7 +231,7 @@ namespace Mooege.Core.GS.Actors
                 Field2 = 0x2,
                 Field3 = false,
             }, this);
-
+            */
             this.World.SpawnRandomDrop(player, this.Position);
             this.World.SpawnGold(player, this.Position);
             this.Destroy();
