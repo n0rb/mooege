@@ -39,17 +39,18 @@ namespace Mooege.Core.GS.Effects
             /// </summary>
             PickupGold = 5, 
             /// <summary>
-            /// Level Up Message (Sign) in the center of the Screen
+            /// Displays a sign in the center of the screen with the "Level gained" message. Level is taken from GameAttribute.Level.
+            /// Also displays signs for unlocked skills and slots.
             /// </summary>
-            LevelUpMessage = 6,
+            LevelInfo = 6,
             /// <summary>
             /// Health Globe Pickup (red bubbles aborbed by Actor)
             /// </summary>
             PickupHealth = 7, 
             /// <summary>
-            /// Viollete Glow similiar to Health/Gold Pickup
+            /// Arcane Power Gain (Purple glow)
             /// </summary>
-            GlowViolette = 8,
+            ArcanePower = 8,
             /// <summary>
             /// A Yellow and Black glowing sign appears above the Actor
             /// </summary>
@@ -63,9 +64,9 @@ namespace Mooege.Core.GS.Effects
             /// </summary>
             Item = 27,
             /// <summary>
-            /// Level Up Effect, Yellow Swhirl around the Actor, needs Field2 to be an int, ie. 85195
+            /// This is a Placeholder for Effects. Field2 should contain the SNO of the effect to show. (ie 85195 for Level Up Swhirl)
             /// </summary>
-            LevelUpEffect = 32, 
+            GeneralEffect = 32, 
             /// <summary>
             /// Energy / Furty / Mana etc pickup indicator, right globe flashes
             /// </summary>
@@ -81,10 +82,23 @@ namespace Mooege.Core.GS.Effects
         }
 
         /// <summary>
+        /// Sounds that originate at the Actors Location
+        /// </summary>
+        public enum Sounds
+        {
+            MetalImpact = 34,
+            CrashImpact = 35
+        }
+
+        /// <summary>
         /// Death Effects most likely for Heroes, could be for endbosses too
         /// </summary>
         public enum Death
         {
+            /// <summary>
+            /// Blood splash upwards from Actor
+            /// </summary>
+            BloodSplash = 24,
             Gore = 40,
             Fire = 41,
             Green = 42,

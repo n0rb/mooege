@@ -674,7 +674,7 @@ namespace Mooege.Core.GS.Player
                 {
                     Id = 0x7a,
                     ActorID = this.DynamicID,
-                    Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.LevelUpMessage,
+                    Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.LevelInfo,
                 });
                 /*this.InGameClient.SendMessage(new PlayEffectMessage()
                 {
@@ -688,7 +688,7 @@ namespace Mooege.Core.GS.Player
                 {
                     Id = 0x7a,
                     ActorID = this.DynamicID,
-                    Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.LevelUpEffect,
+                    Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.GeneralEffect,
                     Field2 = LevelUpEffects[this.Attributes[GameAttribute.Level]],
                 });
             }
