@@ -87,7 +87,8 @@ namespace Mooege.Core.GS.Effects
         public enum Sounds
         {
             MetalImpact = 34,
-            CrashImpact = 35
+            CrashImpact = 35,
+            Impact = 61
         }
 
         /// <summary>
@@ -126,7 +127,7 @@ namespace Mooege.Core.GS.Effects
             Black = 52,
             Blue = 53,
             /// <summary>
-            /// Black with a somewhat different texture
+            /// Black with a somewhat different texture - used in death of monsters ?
             /// </summary>
             Black2 = 55, 
             Green = 56
@@ -150,6 +151,21 @@ namespace Mooege.Core.GS.Effects
         }
 
         /// <summary>
+        /// Used primarily for Monster Actors
+        /// </summary>
+        public enum Monster
+        {
+            /// <summary>
+            /// it's not quite sure what this does yet, as everything runs fine without it - but it's in the real game with field2 = 2
+            /// </summary>
+            Death1=0,
+            /// <summary>
+            /// unknown - but is in real game
+            /// </summary>
+            Death2=12
+        }
+
+        /// <summary>
         ///  these are to be found in packet captures but are unknown of what they do, everything seems to work without these just as well
         /// </summary>
 
@@ -160,10 +176,8 @@ namespace Mooege.Core.GS.Effects
             Unknown3 = 3,
             Unknown4 = 4,
             Unknown11 = 11,
-            Unknown12 = 12,
             Unknown23 = 23,
             Unknown33 = 33,
-            Unknown61 = 61
         }
     }
 
