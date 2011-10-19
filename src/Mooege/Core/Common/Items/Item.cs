@@ -216,7 +216,7 @@ namespace Mooege.Core.Common.Items
             player.InGameClient.SendMessage(new PlayEffectMessage()
             {
                 ActorID = this.DynamicID,
-                Field1 = 0x00000027,
+                Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.Item,
             });
 
              //Why updating with the same sno?

@@ -153,6 +153,7 @@ namespace Mooege.Core.GS.Actors
             player.UpdateExp(this.Attributes[GameAttribute.Experience_Granted]);
             player.UpdateExpBonusData(player.GBHandle.Type, this.GBHandle.Type);
 
+            /* this is not necessary // n0rb
             this.World.BroadcastIfRevealed(new PlayEffectMessage()
             {
                 ActorID = this.DynamicID,
@@ -171,6 +172,7 @@ namespace Mooege.Core.GS.Actors
                 Field2 = 0x2,
                 Field3 = false,
             }, this);
+             */
 
             this.World.BroadcastIfRevealed(new FloatingNumberMessage()
             {
@@ -234,6 +236,9 @@ namespace Mooege.Core.GS.Actors
             */
             this.World.SpawnRandomDrop(player, this.Position);
             this.World.SpawnGold(player, this.Position);
+            int rGlobes = RandomHelper.Next(1, 100);
+            if (rGlobes < 20)
+                this.World.SpawnGlobe(player, this.Position);
             this.Destroy();
         }
     }

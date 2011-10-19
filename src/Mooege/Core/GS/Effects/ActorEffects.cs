@@ -17,78 +17,8 @@
  */
 
 /*
- * 
- * 
-field1 = 0 -> char goes -> 0 again crashes client
-(field2 = 7 ??)
-
-field1 = 1 -> char goes dark -> does not work again
-
-2 ??
-3 ??
-4 ??
-
-field1 = 5 -> gold pickup? (gold glow)
-field1 = 6 -> levelup
-field1 = 7 -> hp pickup? (red bubbles glow)
-field1 = 8 -> violette glow
-field1 = 9 -> yellow/black glow above the char
-field1 = 10 -> lots of small yellow glows that go toward the char
-
-11 ??
-12 ??
-
-field1 = 13 -> small violette square in middle of actor (keeps fading in/out) that stays where the char went
-field1 = 17 -> that item cannot be picked up
-18 -> you have no place to put that item
-19 -> you are not allowed to have more than one of this item
-20 -> that item belongs to someone else and cannot be picked up
-
-23 ??
-
-27 -> white cloud, stays at pos
-28 -> blue cloud
-29 -> blue flash / big glow
-32 -> level up effect (gold flash) (needs field2 fe 85195)
-
-33 ??
-
-37 -> energy globe flashes
-
-40 -> death ? big gore flesh explosion
-41 -> death ? big fire flesh explosion
-42 -> death ? big green flesh explo
-43 -> death ? big biolette flesh explo
-44 -> death ? big explo with symbols
-45 -> death ? lightning explo
-46 -> death ? icey explo
-47 -> death ? HUGE flesh blood explo
-
-48 -> char goes dark
-49 -> char gets blood veins over the body ?
-50 -> char goes violette
-52 -> char goes black
-53 -> char goes blue
-55 -> char goes black diff texture
-56 -> char goes green
-
-61 ??
-
-62 -> mana pickup ? (blue bubbles glow)
-
-67 -> char vanishes completely! -> 50 does not make it come back -> char possibly under ground ...
-
-68 -> crashes client
-
-70 -> checkpoint reached message
-
-71 -> crashes client
-72 -> crashes client
-73 -> crashes client
-74 -> crashes client
-+ -> crashes client
- * 
- * */
+Field1 > 70 crashes the client
+*/
 
 using System;
 using System.Collections.Generic;
@@ -99,43 +29,99 @@ namespace Mooege.Core.GS.Effects
 {
     public static class ActorEffects
     {
-        public static enum Hero
+        /// <summary>
+        /// Actor Effects specifically for Heroes ingame
+        /// </summary>
+        public enum Hero
         {
-            PickupGold = 5, // gold pickup? (gold glow)
+            /// <summary>
+            /// Gold Pickup (golden Glow)
+            /// </summary>
+            PickupGold = 5, 
+            /// <summary>
+            /// Level Up Message (Sign) in the center of the Screen
+            /// </summary>
             LevelUpMessage = 6,
-            PickupHealth = 7, // hp pickup? (red bubbles glow)
-            GlowViolette = 8, // violette glow ?
-            Sign = 9, // yellow/black glow above the char
-            Gather = 10, // lots of small yellow glows that go toward the char
-            LevelUp = 32, // huge golden shwirl effect, needs field2 to be an int, f.e. 85195
-            FlashEnergyGlobe = 37, // flashes the right globe in the game, possible after mana pickup or use of mana flask
-            PickupMana = 62 // mana pickup? (blue bubbles glow)
+            /// <summary>
+            /// Health Globe Pickup (red bubbles aborbed by Actor)
+            /// </summary>
+            PickupHealth = 7, 
+            /// <summary>
+            /// Viollete Glow similiar to Health/Gold Pickup
+            /// </summary>
+            GlowViolette = 8,
+            /// <summary>
+            /// A Yellow and Black glowing sign appears above the Actor
+            /// </summary>
+            Sign = 9, 
+            /// <summary>
+            /// Many small yellow glows go towards Actor (soul steal?)
+            /// </summary>
+            Gather = 10,
+            /// <summary>
+            /// White Cloud appears at the Actors Position and stays there
+            /// </summary>
+            Item = 27,
+            /// <summary>
+            /// Level Up Effect, Yellow Swhirl around the Actor, needs Field2 to be an int, ie. 85195
+            /// </summary>
+            LevelUpEffect = 32, 
+            /// <summary>
+            /// Energy / Furty / Mana etc pickup indicator, right globe flashes
+            /// </summary>
+            FlashEnergyGlobe = 37, 
+            /// <summary>
+            /// Mana Pickup (blue bubbles absorbed by Actor)
+            /// </summary>
+            PickupMana = 62,
+            /// <summary>
+            /// the Actor vanishes under ground (z=z-20f?) - not sure about the use yet
+            /// </summary>
+            Vanish = 67
         }
 
-        public static enum Death
+        /// <summary>
+        /// Death Effects most likely for Heroes, could be for endbosses too
+        /// </summary>
+        public enum Death
         {
             Gore = 40,
             Fire = 41,
             Green = 42,
             Purple = 43,
-            Symbols = 44, // probably for monk's death ?
+            /// <summary>
+            /// Probably the monks death ?
+            /// </summary>
+            Symbols = 44, 
             Lightning = 45,
             Ice = 46,
+            /// <summary>
+            /// Enormous Gore Explosion - possibly for endboss death ?
+            /// </summary>
             Huge = 47
         }
 
-        public static enum Texture
+        /// <summary>
+        /// Actor Textures - when poisoned = green ?
+        /// </summary>
+        public enum Texture
         {
             Dark = 48,
             BloodVeins = 49,
             Purple = 50,
             Black = 52,
             Blue = 53,
-            Black2 = 55, // black with a somewhat different texture
+            /// <summary>
+            /// Black with a somewhat different texture
+            /// </summary>
+            Black2 = 55, 
             Green = 56
         }
 
-        public static enum Messages
+        /// <summary>
+        /// Messages the Game Client can show
+        /// </summary>
+        public enum Messages
         {
             /// <summary>red message: that item cannot be picked up</summary>
             ItemNoPickup = 17,
@@ -153,7 +139,7 @@ namespace Mooege.Core.GS.Effects
         ///  these are to be found in packet captures but are unknown of what they do, everything seems to work without these just as well
         /// </summary>
 
-        public static enum Unknown
+        public enum Unknown
         {
             Unknown1 = 1,
             Unknown2 = 2,
@@ -167,23 +153,4 @@ namespace Mooege.Core.GS.Effects
         }
     }
 
-    public static class ActorEffectsAttributes
-    {
-        public static class Hero 
-        {
-            public static int[] LevelUpEffects =
-            {
-                85186, 85186, 85186, 85186, 85186, 85190, 85190, 85190, 85190, 85190, /* Level 1-10 */
-                85187, 85187, 85187, 85187, 85187, 85187, 85187, 85187, 85187, 85187, /* Level 11-20 */
-                85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, /* Level 21-30 */
-                85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, /* Level 31-40 */
-                85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, 85192, /* Level 41-50 */
-                85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, /* Level 51-60 */
-                85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, /* Level 61-70 */
-                85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, 85194, /* Level 71-80 */
-                85195, 85195, 85195, 85195, 85195, 85195, 85195, 85195, 85195, 85195, /* Level 81-90 */
-                85195, 85195, 85195, 85195, 85195, 85195, 85195, 85195, 85195, 85195 /* Level 91-99 */
-            };
-        }
-    }
 }
