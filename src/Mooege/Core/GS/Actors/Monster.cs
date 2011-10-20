@@ -157,13 +157,13 @@ namespace Mooege.Core.GS.Actors
             this.World.BroadcastIfRevealed(new PlayEffectMessage()
             {
                 ActorID = this.DynamicID,
-                Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Monster.Death1,
-                Field2 = 0x2,
+                Effect = Mooege.Net.GS.Message.Definitions.Effect.Effect.Unknown2,
+                OptionalParameter = 0x2,
             }, this);
             this.World.BroadcastIfRevealed(new PlayEffectMessage()
             {
                 ActorID = this.DynamicID,
-                Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Monster.Death2,
+                Effect = Mooege.Net.GS.Message.Definitions.Effect.Effect.Unknown12
             }, this);
             this.World.BroadcastIfRevealed(new PlayHitEffectMessage()
             {
@@ -219,7 +219,7 @@ namespace Mooege.Core.GS.Actors
             this.World.BroadcastIfRevealed(new PlayEffectMessage()
             {
                 ActorID = this.DynamicID,
-                Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Monster.Death2,
+                Effect = Mooege.Net.GS.Message.Definitions.Effect.Effect.Unknown12
             }, this);
             /* this message would just make the right globe glow, this should only be sent, when it's actually necessary - barbarian ? // n0rb
             this.World.BroadcastIfRevealed(new PlayEffectMessage()

@@ -213,11 +213,13 @@ namespace Mooege.Core.Common.Items
                 return false;
 
             // Drop effect/sound? TODO find out
+            /* this is not the drop sound // n0rb
             player.InGameClient.SendMessage(new PlayEffectMessage()
             {
                 ActorID = this.DynamicID,
-                Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.Item,
+                Field1 = 0x27,
             });
+             */
 
              //Why updating with the same sno?
             /*player.InGameClient.SendMessage(new ACDInventoryUpdateActorSNO()

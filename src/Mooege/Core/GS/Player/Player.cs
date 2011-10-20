@@ -407,7 +407,7 @@ namespace Mooege.Core.GS.Player
                 this.InGameClient.SendMessage(new PlayEffectMessage()
                 {
                     ActorID = this.DynamicID,
-                    Field1=(int)Mooege.Core.GS.Effects.ActorEffects.Hero.PickupHealth
+                    Effect = Mooege.Net.GS.Message.Definitions.Effect.Effect.HealthOrbPickup
                 });
 
                 foreach (var player in PlayerManager.OnlinePlayers)
@@ -674,7 +674,7 @@ namespace Mooege.Core.GS.Player
                 {
                     Id = 0x7a,
                     ActorID = this.DynamicID,
-                    Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.LevelInfo,
+                    Effect = Mooege.Net.GS.Message.Definitions.Effect.Effect.LevelInfo
                 });
                 /*this.InGameClient.SendMessage(new PlayEffectMessage()
                 {
@@ -688,8 +688,8 @@ namespace Mooege.Core.GS.Player
                 {
                     Id = 0x7a,
                     ActorID = this.DynamicID,
-                    Field1 = (int)Mooege.Core.GS.Effects.ActorEffects.Hero.GeneralEffect,
-                    Field2 = LevelUpEffects[this.Attributes[GameAttribute.Level]],
+                    Effect = Mooege.Net.GS.Message.Definitions.Effect.Effect.PlayEffectGroup,
+                    OptionalParameter = LevelUpEffects[this.Attributes[GameAttribute.Level]],
                 });
             }
 

@@ -27,6 +27,52 @@ using Mooege.Net.MooNet;
 
 namespace Mooege.Core.GS.Game
 {
+    [CommandGroup("effect","Shows an Effect")]
+    public class EffectCommand : CommandGroup
+    {
+        [DefaultCommand]
+        public string Effect(string[] @params, MooNetClient invokerClient)
+        {
+
+            int m_field2 = 0;
+            if (@params.Length > 1)
+                m_field2 = Convert.ToInt32(@params[1]);
+
+
+
+           
+
+            if (invokerClient == null)
+                invokerClient = Mooege.Core.MooNet.Online.PlayerManager.OnlinePlayers[1];
+
+            var player = invokerClient.InGameClient.Player;
+
+            
+            int m_field1 = Convert.ToInt32(@params[0]);
+
+            if (m_field2 > 0)
+            {
+                        invokerClient.InGameClient.SendMessage(new Mooege.Net.GS.Message.Definitions.Effect.PlayEffectMessage()
+                        {
+                            ActorID = player.DynamicID,
+                            Effect = (Mooege.Net.GS.Message.Definitions.Effect.Effect)m_field1,
+                            OptionalParameter = m_field2
+                        });
+            }
+            else
+            {
+
+                invokerClient.InGameClient.SendMessage(new Mooege.Net.GS.Message.Definitions.Effect.PlayEffectMessage()
+                        {
+                            ActorID = player.DynamicID,
+                            Effect = (Mooege.Net.GS.Message.Definitions.Effect.Effect)m_field1
+                        });
+            }
+
+            return "Tried to Play Effect on you.";
+        }
+    }
+
     [CommandGroup("spawn", "Spawns a mob.\nUsage: spawn [amount] [actorSNO]")]
     public class SpawnCommand : CommandGroup
     {
